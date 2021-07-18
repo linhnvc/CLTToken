@@ -53,7 +53,6 @@ contract('CLTToken', function(accounts) {
             assert.equal(receipt.logs[0].args._from, accounts[0], 'logs the account the tokens are transferred from');
             assert.equal(receipt.logs[0].args._to, accounts[1], 'logs the account the tokens are transferred to');
             assert.equal(receipt.logs[0].args._value, 250000, 'logs the transfer amount');
-
             return tokenInstance.balanceOf(accounts[1]);
         }).then(function(balance) {
             assert.equal(balance.toNumber(), 250000, 'adds the amount to receiving acc');
@@ -110,16 +109,13 @@ contract('CLTToken', function(accounts) {
         }).then(function(success) {
             assert.equal(success, true);
             return tokenInstance.transferFrom(fromAccount, toAccount, 10, { from: spendingAccount });
-
         }).then(function(receipt) {
             assert.equal(receipt.logs.length, 1, 'triggers one event');
             assert.equal(receipt.logs[0].event, 'Transfer', 'should be the "Transfer" event');
             assert.equal(receipt.logs[0].args._from, fromAccount, 'logs the account the tokens are transferred from');
             assert.equal(receipt.logs[0].args._to, toAccount, 'logs the account the tokens are transferred to');
             assert.equal(receipt.logs[0].args._value, 10, 'logs the transfer amount');
-
             return tokenInstance.balanceOf(fromAccount);
-
         }).then(function(balance) {
             assert.equal(balance.toNumber(), 90, 'deducts the amount from the sending account');
             return tokenInstance.balanceOf(toAccount);
